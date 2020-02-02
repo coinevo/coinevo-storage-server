@@ -1,7 +1,7 @@
 #include "service_node.h"
 
 #include "Database.hpp"
-#include "lokid_key.h"
+#include "coinevod_key.h"
 #include "utils.hpp"
 
 #include "Item.hpp"
@@ -23,7 +23,7 @@
 
 using service_node::storage::Item;
 
-namespace loki {
+namespace coinevo {
 using http_server::connection_t;
 
 constexpr std::array<std::chrono::seconds, 5> RETRY_INTERVALS = {
@@ -527,4 +527,4 @@ std::vector<sn_record_t> ServiceNode::get_snodes_by_pk(const std::string& pk) {
     return {};
 }
 
-} // namespace loki
+} // namespace coinevo

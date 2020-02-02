@@ -1,4 +1,4 @@
-#include "lokid_key.h"
+#include "coinevod_key.h"
 extern "C" {
 #include "sodium/private/ed25519_ref10.h"
 }
@@ -13,7 +13,7 @@ namespace fs = boost::filesystem;
 
 constexpr size_t KEY_LENGTH = 32;
 
-std::vector<uint8_t> parseLokidKey(const std::string& path) {
+std::vector<uint8_t> parseCoinevodKey(const std::string& path) {
     fs::path p(path);
 
     if (p.empty()) {
@@ -22,12 +22,12 @@ std::vector<uint8_t> parseLokidKey(const std::string& path) {
 #else
         const fs::path homedir = fs::path(getenv("HOME"));
 #endif
-        const fs::path basepath = homedir / fs::path(".loki");
+        const fs::path basepath = homedir / fs::path(".coinevo");
         p = basepath / "key";
     }
 
     if (!fs::exists(p)) {
-        throw std::runtime_error("Lokid key file could not be found");
+        throw std::runtime_error("Coinevod key file could not be found");
     }
     std::ifstream input(p.c_str(), std::ios::binary);
     const std::vector<uint8_t> privateKey(std::istreambuf_iterator<char>(input),

@@ -1,6 +1,6 @@
 #include "channel_encryption.hpp"
 #include "http_connection.h"
-#include "lokid_key.h"
+#include "coinevod_key.h"
 #include "service_node.h"
 #include "swarm.h"
 
@@ -35,7 +35,7 @@ static const LogLevelMap logLevelMap{
 
 void usage(char* argv[]) {
     std::cerr << "Usage: " << argv[0]
-              << " <address> <port> [--lokid-key path] [--db-location "
+              << " <address> <port> [--coinevod-key path] [--db-location "
                  "path] [--log-level level]\n";
     std::cerr << "  For IPv4, try:\n";
     std::cerr << "    receiver 0.0.0.0 80\n";
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
             return EXIT_FAILURE;
         }
 
-        std::string lokidKeyPath;
+        std::string coinevodKeyPath;
         std::string dbLocation(".");
         std::string logLocation;
         std::string logLevelString("info");
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
         std::string ip = argv[1];
 
         po::options_description desc;
-        desc.add_options()("lokid-key", po::value(&lokidKeyPath),
+        desc.add_options()("coinevod-key", po::value(&coinevodKeyPath),
                            "")("db-location", po::value(&dbLocation),
                                "")("output-log", po::value(&logLocation), "")(
             "log-level", po::value(&logLevelString), "");
@@ -104,9 +104,9 @@ int main(int argc, char* argv[]) {
                                          logLevel);
         BOOST_LOG_TRIVIAL(info) << "Setting log level to " << logLevelString;
 
-        if (vm.count("lokid-key")) {
+        if (vm.count("coinevod-key")) {
             BOOST_LOG_TRIVIAL(info)
-                << "Setting Lokid key path to " << lokidKeyPath;
+                << "Setting Coinevod key path to " << coinevodKeyPath;
         }
 
         if (vm.count("db-location")) {
@@ -120,13 +120,13 @@ int main(int argc, char* argv[]) {
         boost::asio::io_context ioc{1};
 
         // ed25519 key
-        const std::vector<uint8_t> private_key = parseLokidKey(lokidKeyPath);
+        const std::vector<uint8_t> private_key = parseCoinevodKey(coinevodKeyPath);
         ChannelEncryption<std::string> channelEncryption(private_key);
         const std::vector<uint8_t> public_key = calcPublicKey(private_key);
-        loki::ServiceNode service_node(ioc, port, public_key, dbLocation);
+        coinevo::ServiceNode service_node(ioc, port, public_key, dbLocation);
 
         /// Should run http server
-        loki::http_server::run(ioc, ip, port, service_node, channelEncryption);
+        coinevo::http_server::run(ioc, ip, port, service_node, channelEncryption);
 
     } catch (std::exception const& e) {
         BOOST_LOG_TRIVIAL(fatal) << "Exception caught in main: " << e.what();

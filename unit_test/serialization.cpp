@@ -8,7 +8,7 @@
 
 #include <string>
 
-using namespace loki;
+using namespace coinevo;
 
 BOOST_AUTO_TEST_SUITE(serialization)
 

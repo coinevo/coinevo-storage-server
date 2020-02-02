@@ -12,9 +12,9 @@ set_property(TARGET Test PROPERTY CXX_STANDARD 11)
 
 # library under test
 
-loki_add_subdirectory(../storage storage)
-loki_add_subdirectory(../pow pow)
-loki_add_subdirectory(../utils utils)
+coinevo_add_subdirectory(../storage storage)
+coinevo_add_subdirectory(../pow pow)
+coinevo_add_subdirectory(../utils utils)
 target_link_libraries(Test PRIVATE storage pow utils)
 target_include_directories(Test PRIVATE ../httpserver)
 

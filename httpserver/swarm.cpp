@@ -6,7 +6,7 @@
 #include <boost/log/trivial.hpp>
 #include <stdlib.h>
 
-namespace loki {
+namespace coinevo {
 
 static bool swarm_exists(const all_swarms_t& all_swarms,
                          const swarm_id_t& swarm) {
@@ -201,4 +201,4 @@ const std::vector<sn_record_t>& Swarm::other_nodes() const {
     return swarm_peers_;
 }
 
-} // namespace loki
+} // namespace coinevo

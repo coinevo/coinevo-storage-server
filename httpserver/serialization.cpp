@@ -10,7 +10,7 @@
 
 using service_node::storage::Item;
 
-namespace loki {
+namespace coinevo {
 
 /// TODO: use endianness aware serialisation
 // ( boost::native_to_big_inplace? )
@@ -197,4 +197,4 @@ std::vector<message_t> deserialize_messages(const std::string& blob) {
     return result;
 }
 
-} // namespace loki
+} // namespace coinevo

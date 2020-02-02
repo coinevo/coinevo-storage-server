@@ -5,7 +5,7 @@ struct sn_record_t {
     std::string address; // Snode address
 };
 
-namespace loki {
+namespace coinevo {
 
 /// message as received by client
 struct message_t {
@@ -24,7 +24,7 @@ struct message_t {
           nonce(nonce) {}
 };
 
-} // namespace loki
+} // namespace coinevo
 
 namespace std {
 

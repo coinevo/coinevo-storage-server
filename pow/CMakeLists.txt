@@ -5,7 +5,7 @@ set(SOURCES
 
 add_library(pow STATIC ${SOURCES})
 
-loki_add_subdirectory(../utils utils)
+coinevo_add_subdirectory(../utils utils)
 
 set_property(TARGET pow PROPERTY CXX_STANDARD 11)
 

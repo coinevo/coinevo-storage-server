@@ -12,7 +12,7 @@ class io_context;
 }
 } // namespace boost
 
-namespace loki {
+namespace coinevo {
 
 class ServiceNode;
 
@@ -62,4 +62,4 @@ class Swarm {
     swarm_id_t our_swarm_id() const { return cur_swarm_id_; }
 };
 
-} // namespace loki
+} // namespace coinevo

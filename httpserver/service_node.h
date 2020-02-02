@@ -26,7 +26,7 @@ struct Item;
 namespace http = boost::beast::http;
 using request_t = http::request<http::string_body>;
 
-namespace loki {
+namespace coinevo {
 
 namespace http_server {
 class connection_t;
@@ -153,4 +153,4 @@ class ServiceNode {
                   std::vector<service_node::storage::Item>& items);
 };
 
-} // namespace loki
+} // namespace coinevo

@@ -30,13 +30,13 @@ using namespace service_node;
 
 /// +===========================================
 
-static const std::string LOKI_EPHEMKEY_HEADER = "X-Loki-EphemKey";
+static const std::string COINEVO_EPHEMKEY_HEADER = "X-Coinevo-EphemKey";
 
 using service_node::storage::Item;
 
 using error_code = boost::system::error_code;
 
-namespace loki {
+namespace coinevo {
 
 constexpr auto SESSION_TIME_LIMIT = std::chrono::seconds(30);
 
@@ -76,7 +76,7 @@ parse_swarm_update(const std::shared_ptr<std::string>& response_body,
                    const swarm_callback_t&& cb) {
     const json body = json::parse(*response_body, nullptr, false);
     if (body == nlohmann::detail::value_t::discarded) {
-        BOOST_LOG_TRIVIAL(error) << "Bad lokid rpc response: invalid json";
+        BOOST_LOG_TRIVIAL(error) << "Bad coinevod rpc response: invalid json";
         return;
     }
     all_swarms_t all_swarms;
@@ -101,7 +101,7 @@ parse_swarm_update(const std::shared_ptr<std::string>& response_body,
             swarm_map[swarm_id].push_back(sn);
         }
     } catch (...) {
-        BOOST_LOG_TRIVIAL(error) << "Bad lokid rpc response: invalid json";
+        BOOST_LOG_TRIVIAL(error) << "Bad coinevod rpc response: invalid json";
         return;
     }
 
@@ -122,7 +122,7 @@ void request_swarm_update(boost::asio::io_context& ioc,
     BOOST_LOG_TRIVIAL(trace) << "UPDATING SWARMS: begin";
 
     const std::string ip = "127.0.0.1";
-    const uint16_t port = 38157;
+    const uint16_t port = 38159;
     const std::string target = "/json_rpc";
     const std::string req_body =
         R"#({
@@ -341,7 +341,7 @@ void connection_t::write_response() {
     std::string body = bodyStream_.str();
 
 #ifndef DISABLE_ENCRYPTION
-    const auto it = header_.find(LOKI_EPHEMKEY_HEADER);
+    const auto it = header_.find(COINEVO_EPHEMKEY_HEADER);
     if (it != header_.end()) {
         const std::string& ephemKey = it->second;
         try {
@@ -622,7 +622,7 @@ void connection_t::poll_db(const std::string& pk,
     }
 
     const bool lp_requested =
-        request_.find("X-Loki-Long-Poll") != request_.end();
+        request_.find("X-Coinevo-Long-Poll") != request_.end();
 
     if (!items.empty()) {
         BOOST_LOG_TRIVIAL(trace)
@@ -698,7 +698,7 @@ void connection_t::process_client_req() {
     std::string plainText = request_.body();
 
 #ifndef DISABLE_ENCRYPTION
-    const std::vector<std::string> keys = {LOKI_EPHEMKEY_HEADER};
+    const std::vector<std::string> keys = {COINEVO_EPHEMKEY_HEADER};
     if (!parse_header(keys)) {
         BOOST_LOG_TRIVIAL(error) << "Could not parse headers\n";
         return;
@@ -708,7 +708,7 @@ void connection_t::process_client_req() {
         const std::string decoded =
             boost::beast::detail::base64_decode(plainText);
         plainText =
-            channelCipher_.decrypt(decoded, header_[LOKI_EPHEMKEY_HEADER]);
+            channelCipher_.decrypt(decoded, header_[COINEVO_EPHEMKEY_HEADER]);
     } catch (const std::exception& e) {
         response_.result(http::status::bad_request);
         response_.set(http::field::content_type, "text/plain");
@@ -905,4 +905,4 @@ HttpClientSession::~HttpClientSession() {
     }
 }
 
-} // namespace loki
+} // namespace coinevo

@@ -9,7 +9,7 @@ struct Item;
 }
 } // namespace service_node
 
-namespace loki {
+namespace coinevo {
 
 struct message_t;
 
@@ -21,4 +21,4 @@ std::vector<std::string> serialize_messages(const std::vector<T>& msgs);
 
 std::vector<message_t> deserialize_messages(const std::string& blob);
 
-} // namespace loki
+} // namespace coinevo

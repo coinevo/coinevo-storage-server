@@ -29,7 +29,7 @@ struct Item;
 
 using service_node::storage::Item;
 
-namespace loki {
+namespace coinevo {
 using swarm_callback_t = std::function<void(const all_swarms_t&)>;
 
 struct message_t;
@@ -198,4 +198,4 @@ void run(boost::asio::io_context& ioc, std::string& ip, uint16_t port,
 
 } // namespace http_server
 
-} // namespace loki
+} // namespace coinevo
